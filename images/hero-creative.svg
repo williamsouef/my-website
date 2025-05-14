@@ -1,0 +1,236 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Elements -->
+    <defs>
+        <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F1F2F6" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#F9F9F9" stop-opacity="0.4" />
+        </linearGradient>
+        
+        <linearGradient id="primary-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#212A3E" />
+            <stop offset="100%" stop-color="#394867" />
+        </linearGradient>
+        
+        <linearGradient id="ios-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#007AFF" />
+            <stop offset="100%" stop-color="#0050A0" />
+        </linearGradient>
+        
+        <linearGradient id="watchos-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FF2D55" />
+            <stop offset="100%" stop-color="#A50034" />
+        </linearGradient>
+        
+        <linearGradient id="macos-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#5AC8FA" />
+            <stop offset="100%" stop-color="#0080B0" />
+        </linearGradient>
+        
+        <linearGradient id="visionos-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#00C7BE" />
+            <stop offset="100%" stop-color="#007873" />
+        </linearGradient>
+        
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="10" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+        
+        <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.1" />
+        </filter>
+        
+        <clipPath id="screen-clip">
+            <rect x="0" y="0" width="150" height="270" rx="15" />
+        </clipPath>
+        
+        <pattern id="grid-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <rect x="0" y="0" width="20" height="20" fill="none" stroke="#212A3E" stroke-opacity="0.05" />
+        </pattern>
+    </defs>
+    
+    <!-- Background -->
+    <rect width="800" height="600" fill="url(#bg-gradient)" />
+    <rect width="800" height="600" fill="url(#grid-pattern)" />
+    
+    <!-- Abstract Shapes -->
+    <circle cx="650" cy="150" r="120" fill="#9BA4B5" fill-opacity="0.05" />
+    <circle cx="100" cy="450" r="150" fill="#212A3E" fill-opacity="0.03" />
+    <circle cx="400" cy="50" r="80" fill="#F1F2F6" fill-opacity="0.7" />
+    
+    <!-- Code Blocks in Background -->
+    <g opacity="0.05" transform="translate(50, 100)">
+        <text font-family="monospace" font-size="12" fill="#212A3E">
+            <tspan x="0" y="0">import SwiftUI</tspan>
+            <tspan x="0" y="20">struct ContentView: View {</tspan>
+            <tspan x="0" y="40">    @State private var text = ""</tspan>
+            <tspan x="0" y="60">    var body: some View {</tspan>
+            <tspan x="0" y="80">        VStack {</tspan>
+            <tspan x="0" y="100">            Text("Hello, World!")</tspan>
+            <tspan x="0" y="120">                .font(.title)</tspan>
+            <tspan x="0" y="140">            TextField("Enter text", text: $text)</tspan>
+            <tspan x="0" y="160">                .textFieldStyle(.roundedBorder)</tspan>
+            <tspan x="0" y="180">        }</tspan>
+            <tspan x="0" y="200">        .padding()</tspan>
+            <tspan x="0" y="220">    }</tspan>
+            <tspan x="0" y="240">}</tspan>
+        </text>
+    </g>
+    
+    <g opacity="0.05" transform="translate(520, 320)">
+        <text font-family="monospace" font-size="12" fill="#212A3E">
+            <tspan x="0" y="0">#if os(iOS)</tspan>
+            <tspan x="0" y="20">import UIKit</tspan>
+            <tspan x="0" y="40">#elseif os(macOS)</tspan>
+            <tspan x="0" y="60">import AppKit</tspan>
+            <tspan x="0" y="80">#elseif os(watchOS)</tspan>
+            <tspan x="0" y="100">import WatchKit</tspan>
+            <tspan x="0" y="120">#elseif os(visionOS)</tspan>
+            <tspan x="0" y="140">import RealityKit</tspan>
+            <tspan x="0" y="160">#endif</tspan>
+        </text>
+    </g>
+    
+    <!-- Central Code Block -->
+    <rect x="280" y="180" width="240" height="240" rx="20" fill="white" fill-opacity="0.9" filter="url(#shadow)" />
+    <foreignObject x="290" y="190" width="220" height="220">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="height: 100%; overflow: hidden; font-family: monospace; font-size: 12px; color: #212A3E; line-height: 1.5;">
+            <pre style="margin: 0; padding: 10px;">
+@Observable
+class ViewModel {
+    var items: [Item] = []
+    
+    func fetchData() async {
+        // Fetch data from API
+        do {
+            let data = try await API.fetch()
+            self.items = data
+        } catch {
+            // Handle error
+        }
+    }
+}
+
+struct ContentView: View {
+    @State var viewModel = ViewModel()
+    
+    var body: some View {
+        NavigationStack {
+            List(viewModel.items) { item in
+                ItemRow(item: item)
+            }
+            .navigationTitle("Items")
+        }
+        .task {
+            await viewModel.fetchData()
+        }
+    }
+}</pre>
+        </div>
+    </foreignObject>
+    
+    <!-- Floating Apple Devices -->
+    <!-- iPhone -->
+    <g transform="translate(120, 220) rotate(-10)">
+        <rect x="0" y="0" width="150" height="300" rx="20" fill="url(#primary-gradient)" />
+        <rect x="5" y="5" width="140" height="290" rx="15" fill="white" />
+        <g clip-path="url(#screen-clip)" transform="translate(5, 5)">
+            <rect width="150" height="270" fill="#F9F9F9" />
+            <circle cx="75" cy="50" r="30" fill="url(#ios-gradient)" />
+            <rect x="25" y="100" width="100" height="10" rx="5" fill="#212A3E" fill-opacity="0.1" />
+            <rect x="25" y="120" width="70" height="10" rx="5" fill="#212A3E" fill-opacity="0.1" />
+            <rect x="25" y="150" width="100" height="60" rx="10" fill="url(#ios-gradient)" fill-opacity="0.1" />
+        </g>
+        <circle cx="75" cy="280" r="15" fill="#F1F2F6" stroke="#212A3E" stroke-opacity="0.1" />
+    </g>
+    
+    <!-- Apple Watch -->
+    <g transform="translate(550, 180) rotate(5)">
+        <rect x="0" y="0" width="100" height="120" rx="20" fill="url(#primary-gradient)" />
+        <rect x="5" y="5" width="90" height="110" rx="15" fill="white" />
+        <g clip-path="url(#screen-clip)" transform="translate(5, 5) scale(0.6)">
+            <rect width="150" height="183" fill="#F9F9F9" />
+            <circle cx="75" cy="75" r="50" fill="url(#watchos-gradient)" fill-opacity="0.4" stroke="url(#watchos-gradient)" stroke-width="2" />
+            <path d="M75 40 L75 75 L100 95" stroke="url(#watchos-gradient)" stroke-width="3" fill="none" stroke-linecap="round" />
+        </g>
+        <rect x="40" y="120" width="20" height="10" rx="2" fill="url(#primary-gradient)" />
+    </g>
+    
+    <!-- MacBook -->
+    <g transform="translate(450, 350) rotate(-5)">
+        <rect x="0" y="0" width="200" height="120" rx="10" fill="url(#primary-gradient)" />
+        <rect x="5" y="5" width="190" height="110" rx="5" fill="white" />
+        <g clip-path="url(#screen-clip)" transform="translate(5, 5) scale(1.25)">
+            <rect width="150" height="88" fill="#F9F9F9" />
+            <circle cx="30" cy="20" r="6" fill="url(#macos-gradient)" />
+            <circle cx="50" cy="20" r="6" fill="url(#watchos-gradient)" />
+            <circle cx="70" cy="20" r="6" fill="url(#ios-gradient)" />
+            <rect x="20" y="40" width="110" height="40" rx="5" fill="#212A3E" fill-opacity="0.05" />
+        </g>
+        <rect x="30" y="120" width="140" height="10" rx="2" fill="url(#primary-gradient)" />
+    </g>
+    
+    <!-- Apple Vision Pro -->
+    <g transform="translate(310, 100) rotate(8)">
+        <path d="M0 40 C0 15, 130 15, 130 40 L130 80 C130 105, 0 105, 0 80 Z" fill="url(#primary-gradient)" />
+        <path d="M5 42 C5 20, 125 20, 125 42 L125 78 C125 100, 5 100, 5 78 Z" fill="white" />
+        <ellipse cx="65" cy="60" rx="50" ry="30" fill="url(#visionos-gradient)" fill-opacity="0.2" />
+        <ellipse cx="65" cy="60" rx="30" ry="15" fill="url(#visionos-gradient)" fill-opacity="0.3" />
+    </g>
+    
+    <!-- Connectors Between Devices -->
+    <path d="M200 250 C250 220, 300 200, 350 200" stroke="#9BA4B5" stroke-width="1" stroke-dasharray="4" />
+    <path d="M280 280 C330 320, 400 340, 450 340" stroke="#9BA4B5" stroke-width="1" stroke-dasharray="4" />
+    <path d="M520 300 C460 270, 400 250, 350 250" stroke="#9BA4B5" stroke-width="1" stroke-dasharray="4" />
+    
+    <!-- Floating Swift Logos -->
+    <g transform="translate(210, 160) rotate(-15)">
+        <path d="M0 15 C0 6.716, 6.716 0, 15 0L15 0C23.284 0, 30 6.716, 30 15L30 15C30 23.284, 23.284 30, 15 30L15 30C6.716 30, 0 23.284, 0 15" fill="url(#ios-gradient)" />
+        <text x="15" y="20" font-family="Arial" font-size="15" font-weight="bold" fill="white" text-anchor="middle">S</text>
+    </g>
+    
+    <g transform="translate(520, 280) rotate(10)">
+        <path d="M0 15 C0 6.716, 6.716 0, 15 0L15 0C23.284 0, 30 6.716, 30 15L30 15C30 23.284, 23.284 30, 15 30L15 30C6.716 30, 0 23.284, 0 15" fill="url(#watchos-gradient)" />
+        <text x="15" y="20" font-family="Arial" font-size="15" font-weight="bold" fill="white" text-anchor="middle">S</text>
+    </g>
+    
+    <g transform="translate(400, 450) rotate(5)">
+        <path d="M0 15 C0 6.716, 6.716 0, 15 0L15 0C23.284 0, 30 6.716, 30 15L30 15C30 23.284, 23.284 30, 15 30L15 30C6.716 30, 0 23.284, 0 15" fill="url(#macos-gradient)" />
+        <text x="15" y="20" font-family="Arial" font-size="15" font-weight="bold" fill="white" text-anchor="middle">S</text>
+    </g>
+    
+    <g transform="translate(330, 130) rotate(-5)">
+        <path d="M0 15 C0 6.716, 6.716 0, 15 0L15 0C23.284 0, 30 6.716, 30 15L30 15C30 23.284, 23.284 30, 15 30L15 30C6.716 30, 0 23.284, 0 15" fill="url(#visionos-gradient)" />
+        <text x="15" y="20" font-family="Arial" font-size="15" font-weight="bold" fill="white" text-anchor="middle">S</text>
+    </g>
+    
+    <!-- Particle Design Elements -->
+    <circle cx="200" cy="100" r="3" fill="url(#ios-gradient)" />
+    <circle cx="220" cy="110" r="2" fill="url(#ios-gradient)" />
+    <circle cx="190" cy="120" r="1.5" fill="url(#ios-gradient)" />
+    
+    <circle cx="500" cy="450" r="3" fill="url(#macos-gradient)" />
+    <circle cx="520" cy="440" r="2" fill="url(#macos-gradient)" />
+    <circle cx="490" cy="430" r="1.5" fill="url(#macos-gradient)" />
+    
+    <circle cx="600" cy="250" r="3" fill="url(#watchos-gradient)" />
+    <circle cx="620" cy="260" r="2" fill="url(#watchos-gradient)" />
+    <circle cx="610" cy="240" r="1.5" fill="url(#watchos-gradient)" />
+    
+    <circle cx="350" cy="80" r="3" fill="url(#visionos-gradient)" />
+    <circle cx="370" cy="70" r="2" fill="url(#visionos-gradient)" />
+    <circle cx="360" cy="90" r="1.5" fill="url(#visionos-gradient)" />
+    
+    <!-- Animation Seeds (Static in SVG but could be animated with JavaScript) -->
+    <circle cx="400" cy="300" r="2" fill="#212A3E" opacity="0.3">
+        <animate attributeName="opacity" from="0.3" to="0.7" dur="2s" repeatCount="indefinite" />
+    </circle>
+    
+    <circle cx="250" cy="350" r="2" fill="#212A3E" opacity="0.3">
+        <animate attributeName="opacity" from="0.3" to="0.7" dur="3s" repeatCount="indefinite" />
+    </circle>
+    
+    <circle cx="550" cy="150" r="2" fill="#212A3E" opacity="0.3">
+        <animate attributeName="opacity" from="0.3" to="0.7" dur="2.5s" repeatCount="indefinite" />
+    </circle>
+</svg> 

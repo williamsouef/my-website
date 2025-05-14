@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de traductions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .language-selector {
+            margin-bottom: 20px;
+        }
+        .lang-btn {
+            padding: 5px 10px;
+            margin-right: 5px;
+            cursor: pointer;
+            background: #eee;
+            border: 1px solid #ccc;
+        }
+        .lang-btn.active {
+            background: #212A3E;
+            color: white;
+        }
+        .test-section {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test de traductions</h1>
+    
+    <div class="language-selector">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+        <button class="lang-btn" data-lang="pt">PT</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Platforms Section</h2>
+        <h3 data-i18n="platforms.title">Apple Platforms</h3>
+        <p data-i18n="platforms.subtitle">Native application development for the Apple ecosystem</p>
+        
+        <h4 data-i18n="platforms.ios.title">iOS</h4>
+        <p data-i18n="platforms.ios.desc">Feature-rich iPhone and iPad applications offering a smooth and intuitive user experience.</p>
+        
+        <h4 data-i18n="platforms.watchos.title">watchOS</h4>
+        <p data-i18n="platforms.watchos.desc">Apple Watch applications optimized for quick interactions and access to essential data.</p>
+    </div>
+    
+    <div class="test-section">
+        <h2>CTA Section</h2>
+        <h3 data-i18n="cta.title">Ready to bring your project to life?</h3>
+        <p data-i18n="cta.description">Let's discuss your needs and how I can help you develop your application for the Apple ecosystem.</p>
+        <button data-i18n="cta.button">Schedule a call</button>
+    </div>
+    
+    <div id="debug-output" style="margin-top: 20px; padding: 10px; background: #f5f5f5;">
+        <h3>Debug Information</h3>
+        <pre id="debug-log"></pre>
+    </div>
+
+    <script>
+        // Debug logger
+        function logDebug(message) {
+            const debugLog = document.getElementById('debug-log');
+            const timestamp = new Date().toISOString().substr(11, 8);
+            debugLog.textContent += `[${timestamp}] ${message}\n`;
+        }
+
+        // Mock translations
+        const translations = {
+            en: {
+                "platforms.title": "Apple Platforms",
+                "platforms.subtitle": "Native application development for the Apple ecosystem",
+                "platforms.ios.title": "iOS",
+                "platforms.ios.desc": "Feature-rich iPhone and iPad applications offering a smooth and intuitive user experience.",
+                "platforms.watchos.title": "watchOS",
+                "platforms.watchos.desc": "Apple Watch applications optimized for quick interactions and access to essential data.",
+                "cta.title": "Ready to bring your project to life?",
+                "cta.description": "Let's discuss your needs and how I can help you develop your application for the Apple ecosystem.",
+                "cta.button": "Schedule a call"
+            },
+            fr: {
+                "platforms.title": "Plateformes Apple",
+                "platforms.subtitle": "Développement d'applications natives pour l'écosystème Apple",
+                "platforms.ios.title": "iOS",
+                "platforms.ios.desc": "Applications iPhone et iPad riches en fonctionnalités, offrant une expérience utilisateur fluide et intuitive.",
+                "platforms.watchos.title": "watchOS",
+                "platforms.watchos.desc": "Applications pour Apple Watch optimisées pour les interactions rapides et l'accès aux données essentielles.",
+                "cta.title": "Prêt à concrétiser votre projet ?",
+                "cta.description": "Discutons de vos besoins et de la façon dont je peux vous aider à développer votre application pour l'écosystème Apple.",
+                "cta.button": "Prendre rendez-vous"
+            },
+            pt: {
+                "platforms.title": "Plataformas Apple",
+                "platforms.subtitle": "Desenvolvimento de aplicativos nativos para o ecossistema Apple",
+                "platforms.ios.title": "iOS",
+                "platforms.ios.desc": "Aplicativos para iPhone e iPad ricos em recursos, oferecendo uma experiência de usuário fluida e intuitiva.",
+                "platforms.watchos.title": "watchOS",
+                "platforms.watchos.desc": "Aplicativos para Apple Watch otimizados para interações rápidas e acesso a dados essenciais.",
+                "cta.title": "Pronto para dar vida ao seu projeto?",
+                "cta.description": "Vamos discutir suas necessidades e como posso ajudá-lo a desenvolver seu aplicativo para o ecossistema Apple.",
+                "cta.button": "Agendar uma chamada"
+            }
+        };
+
+        // Set language function
+        function setLanguage(lang) {
+            logDebug(`Changing language to: ${lang}`);
+            
+            // Update document language attribute
+            document.documentElement.lang = lang;
+            
+            // Loop through all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                logDebug(`Translating element with key: ${key}`);
+                
+                // Check if translation exists
+                if (translations[lang] && translations[lang][key]) {
+                    // Handle different element types appropriately
+                    if (element.tagName === 'INPUT') {
+                        if (element.type === 'submit' || element.type === 'button') {
+                            element.value = translations[lang][key];
+                        } else {
+                            element.placeholder = translations[lang][key];
+                        }
+                    } else if (element.tagName === 'TEXTAREA') {
+                        element.placeholder = translations[lang][key];
+                    } else if (element.tagName === 'BUTTON') {
+                        element.textContent = translations[lang][key];
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                    logDebug(`Set to: "${translations[lang][key]}"`);
+                } else if (translations['en'][key]) {
+                    // Fallback to English if translation doesn't exist
+                    logDebug(`Warning: Translation not found for key ${key} in language ${lang} - using English fallback`);
+                    
+                    if (element.tagName === 'INPUT') {
+                        if (element.type === 'submit' || element.type === 'button') {
+                            element.value = translations['en'][key];
+                        } else {
+                            element.placeholder = translations['en'][key];
+                        }
+                    } else if (element.tagName === 'TEXTAREA') {
+                        element.placeholder = translations['en'][key];
+                    } else if (element.tagName === 'BUTTON') {
+                        element.textContent = translations['en'][key];
+                    } else {
+                        element.textContent = translations['en'][key];
+                    }
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            logDebug('Document loaded');
+            
+            // Set initial language
+            setLanguage('en');
+            
+            // Language button click handler
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.dataset.lang;
+                    
+                    // Update active button
+                    document.querySelectorAll('.lang-btn').forEach(button => {
+                        button.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Apply translations
+                    setLanguage(lang);
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
