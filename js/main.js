@@ -110,13 +110,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Calendly popup initialization (placeholder for actual implementation)
+    // Calendly popup initialization
     const calendlyButton = document.getElementById('calendly-button');
     if (calendlyButton) {
         calendlyButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('Calendly integration would open here in a real implementation.');
-            // In a real implementation, you'd use Calendly's API to open the scheduling widget
+            // Let the default link behavior handle the navigation
+            // The href is now set to https://calendly.com/prodwilliamsouef/30min
+            // No need for e.preventDefault() as we want the link to work normally
         });
     }
     
